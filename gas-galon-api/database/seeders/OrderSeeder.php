@@ -20,26 +20,23 @@ class OrderSeeder extends Seeder
             return;
         }
 
+        // إنشاء الطلب الأساسي
         $order = Order::create([
             'customer_id'      => $customer->id,
             'driver_id'        => $driver->id,
-            'order_detail_id'  => null,
             'order_date'       => now(),
             'status'           => 'processing',
             'total_price'      => $product->price * 2,
             'delivery_address' => $customer->address ?? 'Jl. Contoh No. 10',
         ]);
 
-        $detail = OrderDetail::create([
+        // إنشاء تفاصيل الطلب
+        OrderDetail::create([
             'order_id'   => $order->id,
             'product_id' => $product->id,
             'quantity'   => 2,
             'price'      => $product->price,
             'subtotal'   => $product->price * 2,
-        ]);
-
-        $order->update([
-            'order_detail_id' => $detail->idOrder_details,
         ]);
     }
 }

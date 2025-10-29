@@ -9,30 +9,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id(); 
-
+            $table->id();
 
             $table->foreignId('customer_id')
-                  ->constrained('users')
-                  ->onDelete('cascade');
-
+                ->constrained('users')
+                ->onDelete('cascade');
 
             $table->foreignId('driver_id')
-                  ->nullable()
-                  ->constrained('users')
-                  ->onDelete('set null');
+                ->nullable()
+                ->constrained('users')
+                ->onDelete('set null');
 
-
-            $table->foreignId('order_detail_id')
-                  ->nullable()
-                  ->constrained('order_details')
-                  ->onDelete('set null');
-
-            $table->dateTime('order_date')->default(now());
-            $table->string('status', 50)->default('processing'); // pending, processing, delivered, completed
-            $table->decimal('total_price', 10, 2)->default(0);
-            $table->string('delivery_address', 255)->nullable();
-
+            $table->timestamp('order_date')->nullable();
+            $table->string('status')->default('pending');
+            $table->decimal('total_price', 10, 2)->nullable();
+            $table->string('delivery_address')->nullable();
             $table->timestamps();
         });
     }
